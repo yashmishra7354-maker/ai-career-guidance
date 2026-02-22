@@ -1,29 +1,108 @@
 import streamlit as st
 
-st.set_page_config(page_title="AI Career Guidance", layout="centered")
+st.set_page_config(page_title="Career Guidance App", layout="wide")
 
-st.title("🎓 AI-Based Career Guidance System")
-st.caption("AI as a Mentor, Not a Judge")
+# ---------- SESSION STATE ----------
+if "step" not in st.session_state:
+    st.session_state.step = 1
 
-name = st.text_input("Your Name")
+if "profile" not in st.session_state:
+    st.session_state.profile = {}
 
-interest = st.selectbox(
-    "Your Interest",
-    ["Coding", "Mathematics", "Biology", "Arts", "Exploring"]
-)
+# ---------- STEP 1 : BASIC PROFILE ----------
+if st.session_state.step == 1:
+    st.title("👤 Create Your Profile")
 
-hours = st.slider("Daily Study Hours", 0, 10, 2)
+    name = st.text_input("Full Name")
+    age = st.number_input("Age", 10, 60)
+    education = st.selectbox("Current Level", ["10th", "12th", "College"])
+    stream = st.selectbox("Stream", ["Science", "Commerce", "Arts", "Other"])
 
-if st.button("Get Guidance"):
-    st.success(f"Hello {name} 👋")
+    if st.button("Next ➡️"):
+        st.session_state.profile.update({
+            "name": name,
+            "age": age,
+            "education": education,
+            "stream": stream
+        })
+        st.session_state.step = 2
+        st.rerun()
 
-    if interest == "Coding":
-        st.write("👉 Suggested Path: Programming → DSA → AI/ML")
-    elif interest == "Mathematics":
-        st.write("👉 Suggested Path: Statistics → Data Analysis → Research")
-    elif interest == "Biology":
-        st.write("👉 Suggested Path: Bioinformatics → AI in Healthcare")
-    elif interest == "Arts":
-        st.write("👉 Suggested Path: UI/UX → Creative Tech")
+# ---------- STEP 2 : CAREER GOAL ----------
+elif st.session_state.step == 2:
+    st.title("🎯 Career Goal")
+
+    goal = st.selectbox(
+        "What do you want to pursue?",
+        ["Job", "Business", "Higher Studies", "Not Sure"]
+    )
+
+    if st.button("Next ➡️"):
+        st.session_state.profile["goal"] = goal
+        st.session_state.step = 3
+        st.rerun()
+
+# ---------- STEP 3 : DYNAMIC QUESTIONS ----------
+elif st.session_state.step == 3:
+    goal = st.session_state.profile["goal"]
+    st.title("🧠 Tell Us More")
+
+    if goal == "Business":
+        business_type = st.selectbox("Business Type", ["Online", "Offline", "Family Business"])
+        capital = st.selectbox("Capital Available?", ["No", "<50k", "50k+"])
+        risk = st.selectbox("Risk Level", ["Low", "Medium", "High"])
+
+        if st.button("Get Guidance"):
+            st.session_state.profile.update({
+                "business_type": business_type,
+                "capital": capital,
+                "risk": risk
+            })
+            st.session_state.step = 4
+            st.rerun()
+
+    elif goal == "Job":
+        interest = st.selectbox("Interest Area", ["Tech", "Government", "Creative"])
+        coding = st.radio("Do you like coding?", ["Yes", "No"])
+        study_time = st.selectbox("Daily Study Time", ["1-2 hrs", "3-5 hrs", "5+ hrs"])
+
+        if st.button("Get Guidance"):
+            st.session_state.profile.update({
+                "interest": interest,
+                "coding": coding,
+                "study_time": study_time
+            })
+            st.session_state.step = 4
+            st.rerun()
+
     else:
-        st.write("👉 Explore different fields to find your passion")
+        interest = st.selectbox("What do you enjoy most?", ["Problem Solving", "Creativity", "Helping Others"])
+        if st.button("Get Guidance"):
+            st.session_state.profile["interest"] = interest
+            st.session_state.step = 4
+            st.rerun()
+
+# ---------- STEP 4 : GUIDANCE RESULT ----------
+elif st.session_state.step == 4:
+    st.markdown(
+        "<h1 style='color:purple;'>GET GUIDANCE</h1>",
+        unsafe_allow_html=True
+    )
+
+    profile = st.session_state.profile
+    goal = profile.get("goal")
+
+    if goal == "Business":
+        st.success("🚀 Recommendation: Start with digital skills + low‑risk online business.")
+        st.write("Suggested Skills: Marketing, Freelancing, AI tools")
+
+    elif goal == "Job":
+        if profile.get("coding") == "Yes":
+            st.success("💻 Recommendation: Learn Python → AI → Projects")
+        else:
+            st.success("📚 Recommendation: Government or non‑coding career paths")
+
+    else:
+        st.success("🔍 Recommendation: Explore multiple fields before final decision")
+
+    st.write("👤 Profile Data:", profile)
