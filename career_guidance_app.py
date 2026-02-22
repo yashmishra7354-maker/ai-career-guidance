@@ -91,6 +91,24 @@ elif st.session_state.step == 4:
 
     profile = st.session_state.profile
     goal = profile.get("goal")
+        # ----- SCORING SYSTEM -----
+    score = 0
+
+    if goal == "Business":
+        score += 30
+        if profile.get("business_type") == "Online":
+            score += 20
+        if profile.get("capital") == "No":
+            score += 10
+        if profile.get("risk") == "High":
+            score += 20
+
+    elif goal == "Job":
+        score += 20
+        if profile.get("coding") == "Yes":
+            score += 30
+        if profile.get("study_time") == "5+ hrs":
+            score += 20
 
     # ----- MAIN RECOMMENDATION -----
     if goal == "Business":
@@ -130,3 +148,13 @@ elif st.session_state.step == 4:
         st.write("Month 5–6: Internship prep")
 
     st.write("👤 Profile Data:", profile)
+        st.markdown("## 📊 Career Strength Analysis")
+
+    if score >= 70:
+        st.success("🔥 Strong fit for this career path")
+    elif score >= 40:
+        st.warning("⚠️ Can succeed with proper guidance")
+    else:
+        st.info("🔍 Explore more options before deciding")
+
+    st.write("Your Career Readiness Score:", score)
