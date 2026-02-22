@@ -160,3 +160,14 @@ elif st.session_state.step == 4:
         st.write("Month 5–6: Internship prep")
 
     st.write("👤 Profile Data:", profile)
+    # ----- SAVE DATA TO CSV -----
+file_name = "career_data.csv"
+
+df = pd.DataFrame([profile])
+
+if os.path.exists(file_name):
+    df.to_csv(file_name, mode='a', header=False, index=False)
+else:
+    df.to_csv(file_name, index=False)
+
+st.success("✅ Your data has been saved successfully!")
