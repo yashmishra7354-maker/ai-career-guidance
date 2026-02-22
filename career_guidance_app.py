@@ -109,6 +109,16 @@ elif st.session_state.step == 4:
             score += 30
         if profile.get("study_time") == "5+ hrs":
             score += 20
+                st.markdown("## 📊 Career Strength Analysis")
+
+    if score >= 70:
+        st.success("🔥 Strong fit for this career path")
+    elif score >= 40:
+        st.warning("⚠️ Can succeed with proper guidance")
+    else:
+        st.info("🔍 Explore more options before deciding")
+
+    st.write("Your Career Readiness Score:", score)
 
     # ----- MAIN RECOMMENDATION -----
     if goal == "Business":
