@@ -120,6 +120,7 @@ elif st.session_state.step == 4:
 
     st.write("Your Career Readiness Score:", score)
 
+
     # ----- MAIN RECOMMENDATION -----
     if goal == "Business":
         st.success("🚀 Recommendation: Start with digital skills + low‑risk online business.")
