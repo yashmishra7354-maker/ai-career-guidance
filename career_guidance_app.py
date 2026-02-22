@@ -158,16 +158,17 @@ elif st.session_state.step == 4:
         st.write("Month 1–2: Python")
         st.write("Month 3–4: Projects")
         st.write("Month 5–6: Internship prep")
-
     st.write("👤 Profile Data:", profile)
-    # ----- SAVE DATA TO CSV -----
-file_name = "career_data.csv"
 
-df = pd.DataFrame([profile])
+    # ----- SAVE DATA TO CSV (ONLY ONCE) -----
+    if "saved" not in st.session_state:
+        file_name = "career_data.csv"
+        df = pd.DataFrame([profile])
 
-if os.path.exists(file_name):
-    df.to_csv(file_name, mode='a', header=False, index=False)
-else:
-    df.to_csv(file_name, index=False)
+        if os.path.exists(file_name):
+            df.to_csv(file_name, mode="a", header=False, index=False)
+        else:
+            df.to_csv(file_name, index=False)
 
-st.success("✅ Your data has been saved successfully!")
+        st.session_state.saved = True
+        st.success("✅ Your data has been saved successfully!")
