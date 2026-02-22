@@ -148,13 +148,4 @@ elif st.session_state.step == 4:
         st.write("Month 5–6: Internship prep")
 
     st.write("👤 Profile Data:", profile)
-        st.markdown("## 📊 Career Strength Analysis")
-
-    if score >= 70:
-        st.success("🔥 Strong fit for this career path")
-    elif score >= 40:
-        st.warning("⚠️ Can succeed with proper guidance")
-    else:
-        st.info("🔍 Explore more options before deciding")
-
-    st.write("Your Career Readiness Score:", score)
+       
