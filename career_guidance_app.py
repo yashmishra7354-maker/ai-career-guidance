@@ -106,3 +106,24 @@ elif st.session_state.step == 4:
         st.success("🔍 Recommendation: Explore multiple fields before final decision")
 
     st.write("👤 Profile Data:", profile)
+    st.markdown("## 📚 Recommended Courses")
+
+if goal == "Business":
+    st.write("✅ Digital Marketing (Free)")
+    st.write("✅ Freelancing Basics")
+    st.write("✅ Business Model Basics")
+
+    st.markdown("### 🛣️ 6 Month Roadmap")
+    st.write("Month 1–2: Learn skills")
+    st.write("Month 3–4: Small projects")
+    st.write("Month 5–6: Start earning")
+
+elif goal == "Job" and profile.get("coding") == "Yes":
+    st.write("✅ Python")
+    st.write("✅ Data Structures")
+    st.write("✅ AI Basics")
+
+    st.markdown("### 🛣️ 6 Month Roadmap")
+    st.write("Month 1–2: Python")
+    st.write("Month 3–4: Projects")
+    st.write("Month 5–6: Internship prep")
